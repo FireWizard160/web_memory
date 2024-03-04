@@ -1,6 +1,5 @@
-let clicks = 0;
+
 let pairsFound = 0;
-let previousCard = null;
 let isSecondClick = false;
 let timerInterval;
 let cardArray = [];
@@ -23,6 +22,7 @@ function startTimer() {
 
         if (pairsFound === 8) {
             clearInterval(timerInterval);
+            alert("You Win!");
         }
     }, 1000);
 }
@@ -73,14 +73,20 @@ function clickCard(card) {
         card.src = card.id;
         openCard = card;
         isSecondClick = true;
-        return;
     } else {
         trys++;
-
+        card.src = card.id;
         if (card.id === openCard.id) {
-            openCard.src = "pics/memoryFound.png";
-            card.src = "pics/memoryFound.png";
-            pairsFound++;
+            setTimeout(function () {
+
+                openCard.src = "pics/memoryFound.png";
+                card.src = "pics/memoryFound.png";
+                pairsFound++;
+                card.onclick = null;
+                openCard.onclick = null;
+            },1000);
+
+
         } else {
 
             setTimeout(function() {
@@ -89,7 +95,7 @@ function clickCard(card) {
             }, 1000);
         }
         isSecondClick = false;
-        openCard = null;// Setzen Sie isSecondClick wieder auf false, damit Sie weitere Karten umdrehen können
+
     }
     // Anzeige der Versuche aktualisieren
     let tryDisplay = document.getElementById("trys");
